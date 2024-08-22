@@ -7,7 +7,7 @@ export const SideNav = () => {
             <p className='text-2xl font-bold'>MindSpace</p>
         </div>
         <div className='px-4 mt-8'>
-            <button className='w-full text-lg px-2 py-2 rounded-lg bg-[#8A2BE2] text-white'>+ New Project</button>
+            <button className='w-full text-lg px-2 py-2 rounded-lg bg-[#8A2BE2] text-white'>+&nbsp; New Project</button>
         </div>
     </div>
   )
