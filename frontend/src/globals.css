@@ -29,3 +29,27 @@ h5.ce-header{
 h6.ce-header{
   @apply text-lg font-semibold
 }
+
+.ce-popover-item__title {
+  @apply text-xl
+}
+
+.ce-toolbar__plus {
+  @apply scale-[115%]
+}
+
+.ce-popover-item__icon {
+  @apply scale-[115%]
+}
+
+.ce-toolbar__plus {
+  @apply scale-[120%]
+}
+
+.cdx-search-field__input {
+  @apply text-xl
+}
+
+.cdx-search-field__icon {
+  @apply scale-[115%]
+}
