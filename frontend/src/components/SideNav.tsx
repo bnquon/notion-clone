@@ -11,7 +11,7 @@ export const SideNav = ({ showNewDocument }: SideNavProps) => {
             <p className='text-2xl font-bold'>MindSpace</p>
         </div>
         <div className='mt-auto'>
-            <button onClick={() => showNewDocument('createDocument')} className='w-full text-lg px-2 py-2 rounded-lg bg-[#8A2BE2] text-white'>+&nbsp; New Project</button>
+            <button onClick={() => showNewDocument('createDocument')} className='w-full text-lg px-2 py-2 rounded-lg bg-[#8A2BE2] drop-shadow-lg text-white'>+&nbsp; New Project</button>
         </div>
     </div>
   )

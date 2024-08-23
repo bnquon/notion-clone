@@ -34,7 +34,7 @@ export const Document = ({ closeNewDocument }: DocumentProps) => {
           <p className="text-2xl">DOCUMENT NAME HERE</p>
           <button 
           onClick={() => closeNewDocument("home")}
-          className="ml-auto text-2xl px-4 py-2 rounded-xl bg-[#f3f5f6] text-black">
+          className="ml-auto text-2xl px-4 py-2 rounded-xl bg-[#f3f5f6] text-black drop-shadow-lg">
             <p>Close Document X</p>
           </button>
         </div>
