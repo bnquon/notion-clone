@@ -13,7 +13,7 @@ export const Document = ({ closeNewDocument }: DocumentProps) => {
   useEffect(() => {
     if (!ref.current) {
       ref.current = new EditorJS({
-        placeholder: "Untitled",
+        placeholder: "Start typing...",
         defaultBlock: "header",
         holder: "editorjs",
         tools: EDITOR_JS_TOOLS,
@@ -29,7 +29,9 @@ export const Document = ({ closeNewDocument }: DocumentProps) => {
   return (
     <div className="w-full h-full flex flex-col">
       <div className="w-full h-fit mb-[10vh] py-8 px-8 flex font-medium">
-        <p className="text-2xl">DOCUMENT NAME HERE</p>
+        {/* Make input tag and put ref here and then autofocus it to be the title 
+        + make a pass through state to check if its a new document or not */}
+        <p className="text-2xl">Title</p>
         <button
           onClick={() => closeNewDocument("home")}
           className="ml-auto text-2xl px-4 py-2 rounded-xl bg-[#f3f5f6] text-black font-medium drop-shadow-lg"

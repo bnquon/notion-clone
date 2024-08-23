@@ -22,14 +22,14 @@ export default function Home() {
             type="text"
             name="username"
             id="username"
-            className="p-2 text-xl rounded-xl drop-shadow-lg outline-[#8A2BE2]"
+            className="p-2 text-xl rounded-xl drop-shadow-lg focus:outline focus:outline-[#8A2BE2]"
             placeholder="Enter your username"
           />
           <input
             type="password"
             name="password"
             id="password"
-            className="p-2 text-xl rounded-xl drop-shadow-lg outline-[#8A2BE2]"
+            className="p-2 text-xl rounded-xl drop-shadow-lg focus:outline focus:outline-[#8A2BE2]"
             placeholder="Enter your password"
           />
           <button

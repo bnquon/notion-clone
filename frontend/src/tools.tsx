@@ -16,7 +16,7 @@ export const EDITOR_JS_TOOLS = {
   header: {
     class: Header as unknown as ToolConstructable,
     config: {
-        defaultLevel: 1,
+        defaultLevel: 3,
         levels: [1, 2, 3, 4, 5, 6]
     },
   },
