@@ -13,26 +13,25 @@ export default function Page() {
       return null;
     }
   };
-  
+
   const closeNewDocument = (page: String) => {
     if (page === "home") {
       setCurrentPage("home");
     } else {
       return null;
     }
-  }
-  
+  };
+
   return (
     <div className="w-screen h-screen flex flex-row relative">
       <SideNav showNewDocument={showNewDocument} />
-      {
-        currentPage === "home" ? 
-        <div className="w-full h-full bg-red-200">
-            Home dashboard here.
+      {currentPage === "home" ? (
+        <div className="w-full h-full text-2xl font-medium py-8 px-8">
+          Welcome back, NAME!
         </div>
-        :
-        <Document closeNewDocument={closeNewDocument}/>
-      }
+      ) : (
+        <Document closeNewDocument={closeNewDocument} />
+      )}
     </div>
   );
 }
