@@ -4,10 +4,10 @@ import EditorJS from "@editorjs/editorjs";
 import { EDITOR_JS_TOOLS } from "../tools";
 
 type DocumentProps = {
-  closeNewDocument: (page: String) => void;
+  closeDocument: (page: String) => void;
 };
 
-export const Document = ({ closeNewDocument }: DocumentProps) => {
+export const Document = ({ closeDocument }: DocumentProps) => {
   const ref = useRef<EditorJS>();
 
   useEffect(() => {
@@ -31,10 +31,10 @@ export const Document = ({ closeNewDocument }: DocumentProps) => {
       <div className="w-full h-fit mb-[10vh] py-8 px-8 flex font-medium">
         {/* Make input tag and put ref here and then autofocus it to be the title 
         + make a pass through state to check if its a new document or not */}
-        <p className="text-2xl">Title</p>
+        <input type="text" name="title" id="title" className="text-2xl outline-none font-medium" placeholder="Document Title" />
         <button
-          onClick={() => closeNewDocument("home")}
-          className="ml-auto text-2xl px-4 py-2 rounded-xl bg-[#f3f5f6] text-black font-medium drop-shadow-lg"
+          onClick={() => closeDocument("home")}
+          className="ml-auto text-2xl py-2 px-2 rounded-xl bg-[#f3f5f6] text-black font-medium drop-shadow-lg"
         >
           <p>Close Document X</p>
         </button>

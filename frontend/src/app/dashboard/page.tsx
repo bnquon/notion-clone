@@ -6,7 +6,7 @@ import { Document } from "@/components/Document";
 export default function Page() {
   const [currentPage, setCurrentPage] = useState<String>("home");
 
-  const showNewDocument = (page: String) => {
+  const showDocument = (page: String) => {
     if (page === "createDocument") {
       setCurrentPage("createDocument");
     } else {
@@ -14,7 +14,7 @@ export default function Page() {
     }
   };
 
-  const closeNewDocument = (page: String) => {
+  const closeDocument = (page: String) => {
     if (page === "home") {
       setCurrentPage("home");
     } else {
@@ -24,13 +24,13 @@ export default function Page() {
 
   return (
     <div className="w-screen h-screen flex flex-row relative">
-      <SideNav showNewDocument={showNewDocument} />
+      <SideNav showDocument={showDocument} />
       {currentPage === "home" ? (
         <div className="w-full h-full text-2xl font-medium py-8 px-8">
           Welcome back, NAME!
         </div>
       ) : (
-        <Document closeNewDocument={closeNewDocument} />
+        <Document closeDocument={closeDocument} />
       )}
     </div>
   );
