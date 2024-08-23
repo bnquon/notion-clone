@@ -1,13 +1,38 @@
-import React from 'react'
-import { SideNav } from '@/components/SideNav'
-import { Document } from '@/components/Document'
+"use client";
+import React, { useState } from "react";
+import { SideNav } from "@/components/SideNav";
+import { Document } from "@/components/Document";
 
-export default function page() {
+export default function Page() {
+  const [currentPage, setCurrentPage] = useState<String>("home");
 
-    return (
-        <div className='w-screen h-screen flex flex-row relative'>
-            <SideNav />
-            <Document />
+  const showNewDocument = (page: String) => {
+    if (page === "createDocument") {
+      setCurrentPage("createDocument");
+    } else {
+      return null;
+    }
+  };
+  
+  const closeNewDocument = (page: String) => {
+    if (page === "home") {
+      setCurrentPage("home");
+    } else {
+      return null;
+    }
+  }
+  
+  return (
+    <div className="w-screen h-screen flex flex-row relative">
+      <SideNav showNewDocument={showNewDocument} />
+      {
+        currentPage === "home" ? 
+        <div className="w-full h-full bg-red-200">
+            Home dashboard here.
         </div>
-    )
+        :
+        <Document closeNewDocument={closeNewDocument}/>
+      }
+    </div>
+  );
 }
