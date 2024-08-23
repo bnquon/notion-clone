@@ -5,8 +5,8 @@ export default function Home() {
 
   const router = useRouter();
 
-  const handleFormSubmit = () => {
-    router.refresh();
+  const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     router.push('/dashboard');
   }
 
