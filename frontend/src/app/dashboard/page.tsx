@@ -24,7 +24,7 @@ export default function Page() {
 
   return (
     <div className="w-screen h-screen flex flex-row relative">
-      <SideNav showDocument={showDocument} />
+      <SideNav showDocument={showDocument}/>
       {currentPage === "home" ? (
         <div className="w-full h-full text-2xl font-medium py-8 px-8">
           Welcome back, NAME!
