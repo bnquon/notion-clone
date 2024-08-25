@@ -2,5 +2,6 @@
     "java.compile.nullAnalysis.mode": "automatic",
     "files.associations": {
         "*.css": "tailwindcss"
-      }
+      },
+      "java.configuration.updateBuildConfiguration": "automatic"
 }
