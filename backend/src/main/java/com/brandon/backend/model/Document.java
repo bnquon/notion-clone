@@ -1,4 +1,4 @@
-package com.brandon.backend.database;
+package com.brandon.backend.model;
 import jakarta.persistence.*;
 
 @Entity
