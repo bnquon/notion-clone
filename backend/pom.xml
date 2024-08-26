@@ -59,6 +59,13 @@
 		</dependency>
 	</dependencies>
 
+	<dependency>
+		<groupId>io.github.cdimascio</groupId>
+		<artifactId>dotenv-java</artifactId>
+		<version>2.2.1</version>
+	</dependency>
+
+
 	<dependencyManagement>
 		<dependencies>
 			<!-- Import Spring AI BOM -->
