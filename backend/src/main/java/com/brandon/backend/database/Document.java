@@ -9,6 +9,7 @@ public class Document {
     private int id;
     private String title;
     private String content;
+    private int userID;
 
     // Getters and setters
     public int getId() {
@@ -33,5 +34,13 @@ public class Document {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public int getUserID() {
+        return userID;
+    }
+
+    public void setUserID(int userID) { 
+        this.userID = userID;
     }
 }

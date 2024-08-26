@@ -1,44 +1,46 @@
 package com.brandon.backend.database;
 
 import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
 @RestController
 @RequestMapping("/documents")
 public class DatabaseController {
+
+    private final DocumentRepository docRepo;
+
+    public DatabaseController(DocumentRepository docRepo) {
+        this.docRepo = docRepo;
+    }
     
     @PostMapping
-    public String postMethodName(@RequestBody String entity) {
-        //TODO: process POST request
-        
-        return entity;
+    public String postDocument(@RequestBody Document document) {
+        docRepo.insertDocument(document.getTitle(), document.getContent(), document.getUserID());
+        return "Document inserted successfully";
     }
     
     @GetMapping
-    public String getAllDocumentTitles(@RequestParam String param) {
-        //TODO: process GET request for side nav
-        
-        return new String();
+    public List<Document> getAllDocumentTitles(@RequestParam Integer param) {
+        return docRepo.findByUserID(param);
     }
     
 
     @GetMapping("/{id}")
-    public String getSpecificDocument(@RequestParam String param, @PathVariable String id) {
+    public String getSpecificDocument(@PathVariable Integer param) {
         //TODO: process GET request for on document click
 
         return new String();
     }
 
     @PutMapping("/{id}")
-    public String putMethodName(@PathVariable String id, @RequestBody String entity) {
-        //TODO: process PUT request to update a document
-        
-        return entity;
+    public String updateSpecificDocument(@PathVariable Document param) {
+        docRepo.updateDocument(param.getContent(), param.getId());
+        return "Document updated successfully";
     }
 
     @DeleteMapping("/{id}")
-    public String deleteMethodName(@PathVariable String id, @RequestParam String entity) {
-        //TODO: process DELETE request to delete a document
-        
-        return entity;
+    public String deleteSpecificDocument(@PathVariable Integer param) {
+        docRepo.deleteDocument(param);
+        return "Document deleted successfully";
     }
 }
