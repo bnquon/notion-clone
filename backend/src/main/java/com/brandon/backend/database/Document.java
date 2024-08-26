@@ -1,7 +1,8 @@
-package com.brandon.backend.model;
+package com.brandon.backend.database;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "documents") 
 public class Document {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

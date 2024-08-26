@@ -14,9 +14,9 @@ public class DatabaseController {
     }
     
     @GetMapping
-    public String getAllDocuments(@RequestParam String param) {
+    public String getAllDocumentTitles(@RequestParam String param) {
         //TODO: process GET request for side nav
-
+        
         return new String();
     }
     
