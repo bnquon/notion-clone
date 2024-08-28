@@ -3,6 +3,8 @@ import React, { useEffect, useRef, useState } from "react";
 import EditorJS from "@editorjs/editorjs";
 import { EDITOR_JS_TOOLS } from "../tools";
 import { SavePopup } from "./SavePopup";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import axios from "axios";
 
 type DocumentProps = {
   closeDocument: (page: String) => void;
@@ -15,6 +17,33 @@ export const Document = ({ closeDocument }: DocumentProps) => {
   const [showSavePopup, setShowSavePopup] = useState<Boolean>(false);
   const ref = useRef<EditorJS>();
   const titleRef = useRef<HTMLInputElement>(null);
+
+  const saveDocument = useMutation({
+    mutationFn: async () => {
+      const content = ref.current?.save();
+      const response = await axios.post('http://localhost:8080/document', {
+        title: titleRef.current?.value || "Untitled",
+        content: JSON.stringify(content),
+        userID: 1, // placeholder for now will be stored on login
+      });
+      return response.data;
+    },
+    onSuccess: () => {
+      setIsSaved(true);
+      closeDocument("home");
+    }
+  })
+  
+  const updateDocument = useMutation({
+    mutationFn: async () => {
+      const content = ref.current?.save();
+      const response = await axios.put('http://localhost:8080/document', {
+        documentID: 1, // placeholder for now, will be retrieved another through the sidenav onclick
+        content: JSON.stringify(content),
+      });
+      return response.data;
+    }
+  })
 
   useEffect(() => {
     if (!ref.current) {
@@ -40,6 +69,11 @@ export const Document = ({ closeDocument }: DocumentProps) => {
       titleRef.current?.focus();
     }, 0);
   }, []);
+
+  const handleSaveDocument = () => {
+    saveDocument.mutate();
+    setIsSaved(true);
+  }
 
   const checkIfSavedOrPopup = () => {
     if (isSaved === true) {
