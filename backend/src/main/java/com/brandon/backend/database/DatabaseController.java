@@ -26,10 +26,8 @@ public class DatabaseController {
     
 
     @GetMapping("/{id}")
-    public String getSpecificDocument(@PathVariable Integer param) {
-        //TODO: process GET request for on document click
-
-        return new String();
+    public Document getSpecificDocument(@PathVariable Integer param) {
+        return docRepo.findByDocumentID(param);
     }
 
     @PutMapping("/{id}")

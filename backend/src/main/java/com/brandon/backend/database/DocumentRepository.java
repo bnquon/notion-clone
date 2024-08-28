@@ -17,4 +17,7 @@ public interface DocumentRepository extends JpaRepository <Document, Integer> {
 
     @Query(value = "UPDATE documents SET data = ?1 WHERE documentID = ?2", nativeQuery = true)
     void updateDocument(String data, Integer documentID);
+
+    @Query(value = "SELECT * FROM documents WHERE documentID = ?1", nativeQuery = true)
+    Document findByDocumentID(Integer documentID);
 }
