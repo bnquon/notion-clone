@@ -30,7 +30,6 @@ export const Document = ({ closeDocument }: DocumentProps) => {
     },
     onSuccess: () => {
       setIsSaved(true);
-      closeDocument("home");
     }
   })
   
@@ -72,7 +71,6 @@ export const Document = ({ closeDocument }: DocumentProps) => {
 
   const handleSaveDocument = () => {
     saveDocument.mutate();
-    setIsSaved(true);
   }
 
   const checkIfSavedOrPopup = () => {
@@ -110,7 +108,7 @@ export const Document = ({ closeDocument }: DocumentProps) => {
           placeholder="Document Title"
         />
         <span
-          onClick={() => setIsSaved(true)}
+          onClick={handleSaveDocument}
           className="text-xl ml-auto mr-8 shadow-lg rounded-lg px-2 py-2 cursor-pointer outline outline-1 outline-[#8A2BE2] hover:bg-[#8A2BE2]/90 bg-[#8A2BE2] text-white"
         >
           Save Changes
