@@ -14,7 +14,7 @@ public class Document {
     private Integer documentID;
     private String title;
     private String content;
-    private Long userID;
+    private Integer userID;
     
     // Don't need a constructor if I'm only accessing it through queries, maybe add one later
 
@@ -38,10 +38,10 @@ public class Document {
     public void setContent(String content) {
         this.content = content;
     }
-    public Long getUserID() {
+    public Integer getUserID() {
         return userID;
     }
-    public void setUserID(Long userID) {
+    public void setUserID(Integer userID) {
         this.userID = userID;
     }
 }
