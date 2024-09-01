@@ -4,6 +4,7 @@ import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,5 +35,10 @@ public class DocumentController {
     @PostMapping
     public Document addDocument(@RequestBody Document document) {
         return documentService.addDocument(document);
+    }
+
+    @PutMapping("/{id}")
+    public Document updateDocumentByID(@PathVariable Integer id, @RequestBody Document document ) {
+        return documentService.updateDocumentByID(id, document);
     }
 }

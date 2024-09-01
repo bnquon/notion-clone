@@ -26,4 +26,11 @@ public class DocumentService {
     public Document getDocumentByID(Integer documentID) {
         return documentRepository.findById(documentID).orElse(null);
     }
+
+    public Document updateDocumentByID(Integer documentID, Document document) {
+        Document oldDocument = documentRepository.findById(documentID).orElse(null);
+        oldDocument.setContent(document.getContent());
+        oldDocument.setTitle(document.getTitle());
+        return documentRepository.save(oldDocument);
+    }
 }
