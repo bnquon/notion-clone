@@ -22,4 +22,8 @@ public class DocumentService {
     public Document addDocument(Document document) {
         return documentRepository.save(document);
     }
+
+    public Document getDocumentByID(Integer documentID) {
+        return documentRepository.findById(documentID).orElse(null);
+    }
 }
