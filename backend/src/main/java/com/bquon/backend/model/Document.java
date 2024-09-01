@@ -4,12 +4,14 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
-class Document {
+@Table(name = "documents") 
+public class Document {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer documentID;
     private String title;
     private String content;
     private Long userID;
@@ -18,11 +20,11 @@ class Document {
 
     // Getters and Setters
     
-    public Long getId() {
-        return id;
+    public Integer getDocumentID() {
+        return documentID;
     }
-    public void setId(Long id) {
-        this.id = id;
+    public void setDocumentID(Integer documentID) {
+        this.documentID = documentID;
     }
     public String getTitle() {
         return title;

@@ -4,22 +4,24 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
-class User {
+@Table(name = "users")
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer userID;
     private String username;
     private String password;
 
     // Getters and Setters
 
-    public Long getId() {
-        return id;
+    public Integer getUserID() {
+        return userID;
     }
-    public void setId(Long id) {
-        this.id = id;
+    public void setUserID(Integer userID) {
+        this.userID = userID;
     }
     public String getUsername() {
         return username;
