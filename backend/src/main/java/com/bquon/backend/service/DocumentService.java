@@ -18,4 +18,8 @@ public class DocumentService {
     public List<Document> getAllDocuments() {
         return documentRepository.findAll();
     }
+    
+    public Document addDocument(Document document) {
+        return documentRepository.save(document);
+    }
 }
