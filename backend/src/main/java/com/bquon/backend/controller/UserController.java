@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bquon.backend.model.User;
 import com.bquon.backend.service.UserService;
+import com.bquon.backend.utils.PasswordUtil;
 
 
 @RestController
@@ -33,8 +34,13 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public User loginUser(User user) {
-        // Implement login logic here
-        return user;
+    public User loginUser(User user, @RequestBody String username, @RequestBody String password) {
+        PasswordUtil bcypter = new PasswordUtil();
+        User selectedUser = userService.getUserByUsername(username);
+        if (bcypter.checkPasswordValidity(password, selectedUser.getPassword())) {
+            return selectedUser;
+        } else {
+            return null;
+        }
     }
 }
