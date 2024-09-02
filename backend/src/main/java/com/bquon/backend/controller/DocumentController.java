@@ -1,6 +1,8 @@
 package com.bquon.backend.controller;
 
 import java.util.List;
+
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -40,5 +42,11 @@ public class DocumentController {
     @PutMapping("/{id}")
     public Document updateDocumentByID(@PathVariable Integer id, @RequestBody Document document ) {
         return documentService.updateDocumentByID(id, document);
+    }
+
+    @DeleteMapping("/{id}")
+    public String deleteDocumentByID(@PathVariable Integer id) {
+        documentService.deleteDocumentByID(id);
+        return "Document deleted successfully";
     }
 }

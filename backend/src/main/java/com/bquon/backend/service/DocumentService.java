@@ -33,4 +33,8 @@ public class DocumentService {
         oldDocument.setTitle(document.getTitle());
         return documentRepository.save(oldDocument);
     }
+
+    public void deleteDocumentByID(Integer documentID) {
+        documentRepository.deleteById(documentID);
+    }
 }
