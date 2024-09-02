@@ -30,14 +30,16 @@ public class UserController {
 
     @PostMapping("/create")
     public User createUser(@RequestBody User user) {
+        PasswordUtil bcypter = new PasswordUtil();
+        user.setPassword(bcypter.encryptPassword(user.getPassword()));
         return userService.createUser(user);
     }
 
     @PostMapping("/login")
-    public User loginUser(User user, @RequestBody String username, @RequestBody String password) {
+    public User loginUser(@RequestBody User user) {
         PasswordUtil bcypter = new PasswordUtil();
-        User selectedUser = userService.getUserByUsername(username);
-        if (bcypter.checkPasswordValidity(password, selectedUser.getPassword())) {
+        User selectedUser = userService.getUserByUsername(user.getUsername());
+        if (bcypter.checkPasswordValidity(user.getPassword(), selectedUser.getPassword())) {
             return selectedUser;
         } else {
             return null;
