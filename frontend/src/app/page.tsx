@@ -1,12 +1,31 @@
 "use client";
+import { useRef } from "react";
 import { useRouter } from "next/navigation";
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
 
 export default function Home() {
   const router = useRouter();
+  const usernameRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
+
+  const loginUser =  useMutation({
+    mutationFn: async () => {
+      // console.log(usernameRef.current!.value, passwordRef.current!.value);
+      const response = await axios.post('http://localhost:8080/users/login', {
+        username: usernameRef.current!.value,
+        password: passwordRef.current!.value
+      });
+      return response.data;
+    },
+    onSuccess: () => {
+      router.push("/dashboard");
+    }
+  })
 
   const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    router.push("/dashboard");
+    loginUser.mutate();
   };
 
   return (
@@ -19,6 +38,7 @@ export default function Home() {
           onSubmit={handleFormSubmit}
         >
           <input
+            ref={usernameRef}
             type="text"
             name="username"
             id="username"
@@ -26,6 +46,7 @@ export default function Home() {
             placeholder="Enter your username"
           />
           <input
+            ref={passwordRef}
             type="password"
             name="password"
             id="password"
