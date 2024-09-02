@@ -1,1 +1,3 @@
-- Connect backend to frontend
+(Persistent) Connect backend to frontend
+- add storing userID and username in session storage (could be updated in future) and use this in future api calls
+- revamp other POORLY made api calls from before 

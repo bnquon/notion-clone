@@ -16,6 +16,7 @@ export default function Home() {
         username: usernameRef.current!.value,
         password: passwordRef.current!.value
       });
+      // console.log("Response.data is :", response.data); 
       return response.data;
     },
     onSuccess: () => {
