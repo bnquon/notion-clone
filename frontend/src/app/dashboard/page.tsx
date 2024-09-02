@@ -7,6 +7,7 @@ import { Document } from "@/components/Document";
 
 export default function Page() {
   const [currentPage, setCurrentPage] = useState<String>("home");
+  const [userDocuments, setUserDocuments] = useState<any[]>([]);
 
   useEffect(() => {
     retrieveDocumentsByUserID.refetch();
@@ -17,9 +18,12 @@ export default function Page() {
   const retrieveDocumentsByUserID = useQuery({
     queryKey: ["retrieveDocumentsByUserID"],
     queryFn: async () => {
-      const userID = 1;
+      const userID = sessionStorage.getItem("userID");
       const response = await axios.get(`http://localhost:8080/documents/user/${userID}`);
       console.log(response.data);
+      if (response.data) {
+        setUserDocuments(response.data);
+      }
       return response.data;
     },
   })
@@ -42,10 +46,10 @@ export default function Page() {
 
   return (
     <div className="w-screen h-screen flex flex-row relative">
-      <SideNav showDocument={showDocument}/>
+      <SideNav showDocument={showDocument} userDocument={userDocuments}/>
       {currentPage === "home" ? (
         <div className="w-full h-full text-2xl font-medium py-8 px-8">
-          Welcome back, NAME!
+          Welcome back, {sessionStorage.getItem("username")}!
         </div>
       ) : (
         <Document closeDocument={closeDocument} />

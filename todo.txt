@@ -1,3 +1,4 @@
 (Persistent) Connect backend to frontend
 - add storing userID and username in session storage (could be updated in future) and use this in future api calls
 - revamp other POORLY made api calls from before 
+- revamp show document function to take in an integer or null to signal whether to open an existing document or create a new one

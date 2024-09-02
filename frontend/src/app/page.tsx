@@ -16,7 +16,9 @@ export default function Home() {
         username: usernameRef.current!.value,
         password: passwordRef.current!.value
       });
-      // console.log("Response.data is :", response.data); 
+      console.log("Response.data is :", response.data);
+      sessionStorage.setItem("username", response.data.username);
+      sessionStorage.setItem("userID", response.data.userID); 
       return response.data;
     },
     onSuccess: () => {
