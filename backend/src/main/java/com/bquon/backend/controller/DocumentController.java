@@ -36,6 +36,11 @@ public class DocumentController {
         return documentService.getDocumentByID(id);
     }
 
+    @GetMapping("/user/{userID}")
+    public List<Document> getDocumentsByUserID(@PathVariable Integer userID) {
+        return documentService.getDocumentsByUserID(userID);
+    }
+
     @PostMapping
     public Document addDocument(@RequestBody Document document) {
         return documentService.addDocument(document);

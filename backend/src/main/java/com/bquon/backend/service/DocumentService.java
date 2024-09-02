@@ -37,4 +37,8 @@ public class DocumentService {
     public void deleteDocumentByID(Integer documentID) {
         documentRepository.deleteById(documentID);
     }
+
+    public List<Document> getDocumentsByUserID(Integer userID) {
+        return documentRepository.findDocumentsByUserID(userID);
+    }
 }
