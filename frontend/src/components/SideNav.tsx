@@ -3,11 +3,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFileLines } from '@fortawesome/free-solid-svg-icons'
 
 type SideNavProps = {
-  showDocument: (page: String) => void;
+  showDocumentByID: (documentID: number | null) => void;
   userDocument: any[] | undefined;
 };
 
-export const SideNav = ({ showDocument, userDocument }: SideNavProps) => {
+export const SideNav = ({ showDocumentByID, userDocument }: SideNavProps) => {
+  console.log("userDocument in the sidenav is: ", userDocument);
   return (
     <div className="w-[15%] h-screen bg-[#f3f5f6] flex flex-col flex-shrink-0 py-8">
       {/* Title */}
@@ -22,7 +23,7 @@ export const SideNav = ({ showDocument, userDocument }: SideNavProps) => {
               <div
                 key={document.documentID}
                 className="w-full flex gap-4 text-xl items-center cursor-pointer py-4 px-8 hover:bg-gray-300/30"
-                onClick={() => showDocument(document.documentID)}
+                onClick={() => showDocumentByID(document.documentID)}
               >
                 <FontAwesomeIcon
                   icon={faFileLines}
@@ -39,7 +40,7 @@ export const SideNav = ({ showDocument, userDocument }: SideNavProps) => {
       {/* Add new button */}
       <div className="mt-auto px-8">
         <button
-          onClick={() => showDocument("createDocument")}
+          onClick={() => showDocumentByID(null)}
           className="w-full text-xl font-medium px-2 py-4 rounded-lg bg-[#8A2BE2] drop-shadow-lg text-white"
         >
           +&nbsp; New Project
