@@ -17,26 +17,11 @@ type DocumentProps = {
 // Make function for the save popup to be a check if its saved then if yes then close document if not then popup
 
 export const Document = ({ documentInfo }: DocumentProps) => {
-  console.log("Document info received on click: ", documentInfo);
+  // console.log("Document info received on click: ", documentInfo);
   const [isSaved, setIsSaved] = useState<Boolean>(false);
   const [showSavePopup, setShowSavePopup] = useState<Boolean>(false);
   const ref = useRef<EditorJS>();
   const titleRef = useRef<HTMLInputElement>(null);
-
-  const saveDocument = useMutation({
-    mutationFn: async () => {
-      const content = await ref.current?.save();
-      const response = await axios.post('http://localhost:8080/documents', {
-        title: titleRef.current?.value || "Untitled",
-        content: JSON.stringify(content),
-        userID: sessionStorage.getItem("userID"),
-      });
-      return response.data;
-    },
-    onSuccess: () => {
-      setIsSaved(true);
-    }
-  })
   
   const updateDocument = useMutation({
     mutationFn: async () => {
@@ -48,6 +33,9 @@ export const Document = ({ documentInfo }: DocumentProps) => {
       });
       console.log(response.data);
       return response.data;
+    },
+    onSuccess: () => {
+      setIsSaved(true);
     }
   })
 
@@ -58,7 +46,7 @@ export const Document = ({ documentInfo }: DocumentProps) => {
         defaultBlock: "header",
         holder: "editorjs",
         tools: EDITOR_JS_TOOLS,
-        data: JSON.parse(documentInfo.content) || {},
+        data: JSON.parse(documentInfo.content),
         onChange: () => {
           setIsSaved(false);
         },
@@ -74,13 +62,11 @@ export const Document = ({ documentInfo }: DocumentProps) => {
   useEffect(() => {
     setTimeout(() => {
       titleRef.current!.value = documentInfo.title;
-      titleRef.current?.focus();
+      if (documentInfo.title === "Untitled") {
+        titleRef.current!.focus();
+      }
     }, 0);
   }, []);
-
-  const handleSaveDocument = () => {
-    saveDocument.mutate();
-  }
 
   const handleUpdateDocument = () => {
     updateDocument.mutate();
@@ -88,16 +74,16 @@ export const Document = ({ documentInfo }: DocumentProps) => {
 
   // const checkIfSavedOrPopup = () => {
   //   if (isSaved === true) {
-  //     closeDocument("home");
+  //     // closeDocument("home");
   //   } else {
   //     setShowSavePopup(true);
   //   }
   // };
 
-  // Make function to save the document
+  // // Make function to save the document
   // const saveDocumentOrExit = (operation: String) => {
   //   if (operation === "save") {
-  //     // Call eventual async save function
+  //     saveDocument.mutate();
   //     setShowSavePopup(false);
   //     setIsSaved(true);
   //     closeDocument("home");
@@ -121,7 +107,7 @@ export const Document = ({ documentInfo }: DocumentProps) => {
           placeholder={documentInfo ? documentInfo.title : "Untitled"}
         />
         <span
-          onClick={documentInfo ? handleUpdateDocument : handleSaveDocument}
+          onClick={handleUpdateDocument}
           className="text-xl ml-auto mr-8 shadow-lg rounded-lg px-2 py-2 cursor-pointer outline outline-1 outline-[#8A2BE2] hover:bg-[#8A2BE2]/90 bg-[#8A2BE2] text-white"
         >
           Save Changes
