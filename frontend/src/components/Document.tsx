@@ -46,6 +46,7 @@ export const Document = ({ documentInfo }: DocumentProps) => {
         content: JSON.stringify(content),
         userID: sessionStorage.getItem("userID"),
       });
+      console.log(response.data);
       return response.data;
     }
   })
@@ -72,6 +73,7 @@ export const Document = ({ documentInfo }: DocumentProps) => {
 
   useEffect(() => {
     setTimeout(() => {
+      titleRef.current!.value = documentInfo.title;
       titleRef.current?.focus();
     }, 0);
   }, []);
