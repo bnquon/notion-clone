@@ -25,11 +25,11 @@ export const Document = ({ documentInfo }: DocumentProps) => {
 
   const saveDocument = useMutation({
     mutationFn: async () => {
-      const content = ref.current?.save();
-      const response = await axios.post('http://localhost:8080/document', {
+      const content = await ref.current?.save();
+      const response = await axios.post('http://localhost:8080/documents', {
         title: titleRef.current?.value || "Untitled",
         content: JSON.stringify(content),
-        userID: 1, // placeholder for now will be stored on login
+        userID: sessionStorage.getItem("userID"),
       });
       return response.data;
     },
@@ -40,10 +40,11 @@ export const Document = ({ documentInfo }: DocumentProps) => {
   
   const updateDocument = useMutation({
     mutationFn: async () => {
-      const content = ref.current?.save();
-      const response = await axios.put('http://localhost:8080/document', {
-        documentID: 1, // placeholder for now, will be retrieved another through the sidenav onclick
+      const content = await ref.current?.save();
+      const response = await axios.put(`http://localhost:8080/documents/${documentInfo.documentID}`, {
+        title: titleRef.current?.value || "Untitled",
         content: JSON.stringify(content),
+        userID: sessionStorage.getItem("userID"),
       });
       return response.data;
     }
@@ -79,6 +80,10 @@ export const Document = ({ documentInfo }: DocumentProps) => {
     saveDocument.mutate();
   }
 
+  const handleUpdateDocument = () => {
+    updateDocument.mutate();
+  }
+
   // const checkIfSavedOrPopup = () => {
   //   if (isSaved === true) {
   //     closeDocument("home");
@@ -111,10 +116,10 @@ export const Document = ({ documentInfo }: DocumentProps) => {
           name="title"
           id="title"
           className="text-2xl outline-none font-medium"
-          placeholder="Document Title"
+          placeholder={documentInfo ? documentInfo.title : "Untitled"}
         />
         <span
-          onClick={handleSaveDocument}
+          onClick={documentInfo ? handleUpdateDocument : handleSaveDocument}
           className="text-xl ml-auto mr-8 shadow-lg rounded-lg px-2 py-2 cursor-pointer outline outline-1 outline-[#8A2BE2] hover:bg-[#8A2BE2]/90 bg-[#8A2BE2] text-white"
         >
           Save Changes

@@ -45,7 +45,8 @@ export default function Page() {
     if (documentID !== null) {
       retrieveDocumentByDocumentID.mutate(documentID);
     } else {
-      // TODO: Create new document
+      setDocumentInfo(null);
+      setCurrentPage("document");
     }
   }
 
