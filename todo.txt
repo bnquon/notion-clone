@@ -1,2 +1,16 @@
 (Persistent) Connect backend to frontend
-- Revamp save and exit without saving checks and implement the corresponding api endpoint calls
+- Implement loaders and implement home page designs and sign up section
+- Implement section to count up how many words the user has typed
+->
+data = JSON.parse(DATA FROM EDITORJS)
+console.log(data.blocks);
+validTypes = ["header", "list", "paragraph"];
+counter = 0;
+data.blocks.forEach((block) => {
+  if (validTypes.includes(block.type)) {
+    temp = (block.data.text);
+    counter += temp.split(" ").length;
+  }
+})
+
+console.log(counter);
