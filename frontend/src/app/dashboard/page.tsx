@@ -13,7 +13,7 @@ export default function Page() {
   useEffect(() => {
     retrieveDocumentsByUserID.refetch();
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [currentPage]);
 
   // This does work but have to store userID in session storage
   const retrieveDocumentsByUserID = useQuery({

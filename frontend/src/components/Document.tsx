@@ -18,7 +18,7 @@ type DocumentProps = {
 // Make function for the save popup to be a check if its saved then if yes then close document if not then popup
 
 export const Document = ({ documentInfo, closeDocument }: DocumentProps) => {
-  // console.log("Document info received on click: ", documentInfo);
+  console.log("Document info received on click: ", documentInfo);
   const [isSaved, setIsSaved] = useState<Boolean>(true);
   const [showSavePopup, setShowSavePopup] = useState<Boolean>(false);
   const ref = useRef<EditorJS>();
