@@ -12,13 +12,14 @@ type DocumentProps = {
     title: string;
     content: string;
   };
+  closeDocument: () => void;
 };
 
 // Make function for the save popup to be a check if its saved then if yes then close document if not then popup
 
-export const Document = ({ documentInfo }: DocumentProps) => {
+export const Document = ({ documentInfo, closeDocument }: DocumentProps) => {
   // console.log("Document info received on click: ", documentInfo);
-  const [isSaved, setIsSaved] = useState<Boolean>(false);
+  const [isSaved, setIsSaved] = useState<Boolean>(true);
   const [showSavePopup, setShowSavePopup] = useState<Boolean>(false);
   const ref = useRef<EditorJS>();
   const titleRef = useRef<HTMLInputElement>(null);
@@ -57,7 +58,7 @@ export const Document = ({ documentInfo }: DocumentProps) => {
         ref.current.destroy();
       }
     };
-  }, []);
+  }, [documentInfo]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -66,34 +67,36 @@ export const Document = ({ documentInfo }: DocumentProps) => {
         titleRef.current!.focus();
       }
     }, 0);
-  }, []);
+  }, [documentInfo]);
 
   const handleUpdateDocument = () => {
     updateDocument.mutate();
   }
 
-  // const checkIfSavedOrPopup = () => {
-  //   if (isSaved === true) {
-  //     // closeDocument("home");
-  //   } else {
-  //     setShowSavePopup(true);
-  //   }
-  // };
+  const checkIfSavedOrPopup = () => {
+    if (isSaved === true) {
+      closeDocument();
+    } else {
+      setShowSavePopup(true);
+    }
+  };
 
-  // // Make function to save the document
-  // const saveDocumentOrExit = (operation: String) => {
-  //   if (operation === "save") {
-  //     saveDocument.mutate();
-  //     setShowSavePopup(false);
-  //     setIsSaved(true);
-  //     closeDocument("home");
-  //   } 
-  //   if (operation === "exit") {
-  //     // Do not save!
-  //     setShowSavePopup(false);
-  //     closeDocument("home");
-  //   }
-  // }
+  // Make function to save the document
+  const saveDocumentOrExit = (operation: String) => {
+    if (operation === "save") {
+      updateDocument.mutate();
+      setShowSavePopup(false);
+      // Add loading state for future implementation
+      setTimeout(() => {
+        closeDocument();
+      }, 2000);
+    } 
+    if (operation === "exit") {
+      // Do not save!
+      setShowSavePopup(false);
+      closeDocument();
+    }
+  }
 
   return (
     <div className="w-full h-full flex flex-col relative">
@@ -113,7 +116,7 @@ export const Document = ({ documentInfo }: DocumentProps) => {
           Save Changes
         </span>
         <span
-          // onClick={checkIfSavedOrPopup}
+          onClick={checkIfSavedOrPopup}
           className="text-xl py-2 px-2 rounded-lg bg-[#f3f5f6] hover:bg-[#e6e6e6] text-black outline outline-1 outline-[#8A2BE2] font-medium cursor-pointer drop-shadow-lg"
         >
           Close Document
@@ -121,7 +124,7 @@ export const Document = ({ documentInfo }: DocumentProps) => {
       </div>
       <div id="editorjs" className="w-full h-full"></div>
 
-      {/* {showSavePopup && <SavePopup saveDocumentOrExit={saveDocumentOrExit}/>} */}
+      {showSavePopup && <SavePopup saveDocumentOrExit={saveDocumentOrExit}/>}
     </div>
   );
 };

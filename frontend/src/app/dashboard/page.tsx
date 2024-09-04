@@ -50,6 +50,9 @@ export default function Page() {
     }
   }
 
+  const closeDocument = () => {
+    setCurrentPage("home");
+  }
 
   return (
     <div className="w-screen h-screen flex flex-row relative">
@@ -59,7 +62,7 @@ export default function Page() {
           Welcome back, {sessionStorage.getItem("username")}!
         </div>
       ) : (
-        <Document documentInfo={documentInfo}/>
+        <Document closeDocument={closeDocument} documentInfo={documentInfo}/>
       )}
     </div>
   );
