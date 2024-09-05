@@ -80,7 +80,7 @@ export default function Page() {
           Welcome back, {sessionStorage.getItem("username")}!
         </div>
       ) : (
-        <Document closeDocument={closeDocument} documentInfo={documentInfo}/>
+        <Document key={documentInfo.documentID} closeDocument={closeDocument} documentInfo={documentInfo}/>
       )}
     </div>
   );
