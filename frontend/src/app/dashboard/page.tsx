@@ -24,6 +24,7 @@ export default function Page() {
       console.log("retrieveDocumentsByUserID: ", response.data);
       if (response.data) {
         setUserDocuments(response.data);
+        countTotalWords(response.data);
       }
       return response.data;
     },
@@ -40,6 +41,23 @@ export default function Page() {
       setCurrentPage("document");
     }
   })
+
+  const countTotalWords = (documentArray: any) => {
+    let totalWords = 0;
+    let validTypes = ["header", "list", "paragraph"];
+    documentArray.forEach((document: any) => {
+      if (document.content !== "{}") {
+        let temp = JSON.parse(document.content);
+        temp.blocks.forEach((block: any) => {
+          if (validTypes.includes(block.type)) {
+            let documentText = block.data.text;
+            totalWords += documentText.split(" ").length;
+          }
+        })
+      }
+    });
+    console.log(totalWords);
+  }
 
   const showDocumentByID = (documentID: number | null) => {
     if (documentID !== null) {
