@@ -7,15 +7,11 @@ import { Document } from "@/components/Document";
 
 export default function Page() {
   const [currentPage, setCurrentPage] = useState<String>("home");
+  const [totalWordCount, setTotalWordCount] = useState<number>(0);
   const [userDocuments, setUserDocuments] = useState<any[]>([]);
   const [documentInfo, setDocumentInfo] = useState<any>(null);
 
-  useEffect(() => {
-    retrieveDocumentsByUserID.refetch();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentPage]);
-
-  // This does work but have to store userID in session storage
+  // Fetch documents on initial render or when currentPage changes
   const retrieveDocumentsByUserID = useQuery({
     queryKey: ["retrieveDocumentsByUserID"],
     queryFn: async () => {
@@ -28,7 +24,7 @@ export default function Page() {
       }
       return response.data;
     },
-  })
+  });
 
   const retrieveDocumentByDocumentID = useMutation({
     mutationFn: async (documentID: number) => {
@@ -37,10 +33,10 @@ export default function Page() {
       console.log("retrieveDocumentByDocumentID: ", response.data);
       return response.data;
     },
-    onSuccess: () =>{
+    onSuccess: () => {
       setCurrentPage("document");
-    }
-  })
+    },
+  });
 
   const countTotalWords = (documentArray: any) => {
     let totalWords = 0;
@@ -53,11 +49,11 @@ export default function Page() {
             let documentText = block.data.text;
             totalWords += documentText.split(" ").length;
           }
-        })
+        });
       }
     });
-    console.log(totalWords);
-  }
+    setTotalWordCount(totalWords);
+  };
 
   const showDocumentByID = (documentID: number | null) => {
     if (documentID !== null) {
@@ -66,21 +62,30 @@ export default function Page() {
       setDocumentInfo(null);
       setCurrentPage("document");
     }
-  }
+  };
 
   const closeDocument = () => {
     setCurrentPage("home");
-  }
+  };
+
+  // Function to refetch documents after deletion or addition
+  const refetchDocuments = () => {
+    retrieveDocumentsByUserID.refetch();
+  };
 
   return (
     <div className="w-screen h-screen flex flex-row relative">
-      <SideNav showDocumentByID={showDocumentByID} userDocument={userDocuments}/>
+      <SideNav showDocumentByID={showDocumentByID} userDocument={userDocuments} />
       {currentPage === "home" ? (
-        <div className="w-full h-full text-2xl font-medium py-8 px-8">
-          Welcome back, {sessionStorage.getItem("username")}!
+        <div className="w-full h-full py-8 px-8 bg-red-200 flex flex-col">
+          <div className="w-full bg-emerald-200">
+            <p className="text-2xl mb-2">Welcome back, {sessionStorage.getItem("username")}!</p>
+            <p>Total words typed in all documents: {totalWordCount}</p>
+          </div>
+          <div className="w-full h-full flex flex-col bg-blue-200 "></div>
         </div>
       ) : (
-        <Document key={documentInfo.documentID} closeDocument={closeDocument} documentInfo={documentInfo}/>
+        <Document key={documentInfo.documentID} closeDocument={closeDocument} documentInfo={documentInfo} refetchDocuments={refetchDocuments} />
       )}
     </div>
   );

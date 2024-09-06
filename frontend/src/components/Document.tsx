@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import EditorJS from "@editorjs/editorjs";
 import { EDITOR_JS_TOOLS } from "../tools";
 import { SavePopup } from "./SavePopup";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 
 type DocumentProps = {
@@ -13,17 +13,15 @@ type DocumentProps = {
     content: string;
   };
   closeDocument: () => void;
+  refetchDocuments: () => void; // New prop
 };
 
-// Make function for the save popup to be a check if its saved then if yes then close document if not then popup
-
-export const Document = ({ documentInfo, closeDocument }: DocumentProps) => {
-  console.log("Document info received on click: ", documentInfo);
+export const Document = ({ documentInfo, closeDocument, refetchDocuments }: DocumentProps) => {
   const [isSaved, setIsSaved] = useState<Boolean>(true);
   const [showSavePopup, setShowSavePopup] = useState<Boolean>(false);
   const ref = useRef<EditorJS>();
   const titleRef = useRef<HTMLInputElement>(null);
-  
+
   const updateDocument = useMutation({
     mutationFn: async () => {
       const content = await ref.current?.save();
@@ -37,8 +35,19 @@ export const Document = ({ documentInfo, closeDocument }: DocumentProps) => {
     },
     onSuccess: () => {
       setIsSaved(true);
-    }
-  })
+    },
+  });
+
+  const deleteDocument = useMutation({
+    mutationFn: async () => {
+      const response = await axios.delete(`http://localhost:8080/documents/${documentInfo.documentID}`);
+      return response.data;
+    },
+    onSuccess: () => {
+      refetchDocuments(); // Refetch documents after deletion
+      closeDocument();
+    },
+  });
 
   useEffect(() => {
     if (!ref.current) {
@@ -71,7 +80,11 @@ export const Document = ({ documentInfo, closeDocument }: DocumentProps) => {
 
   const handleUpdateDocument = () => {
     updateDocument.mutate();
-  }
+  };
+
+  const handleDeleteDocument = () => {
+    deleteDocument.mutate();
+  };
 
   const checkIfSavedOrPopup = () => {
     if (isSaved === true) {
@@ -80,23 +93,6 @@ export const Document = ({ documentInfo, closeDocument }: DocumentProps) => {
       setShowSavePopup(true);
     }
   };
-
-  // Make function to save the document
-  const saveDocumentOrExit = (operation: String) => {
-    if (operation === "save") {
-      updateDocument.mutate();
-      setShowSavePopup(false);
-      // Add loading state for future implementation
-      setTimeout(() => {
-        closeDocument();
-      }, 2000);
-    } 
-    if (operation === "exit") {
-      // Do not save!
-      setShowSavePopup(false);
-      closeDocument();
-    }
-  }
 
   return (
     <div className="w-full h-full flex flex-col relative">
@@ -111,20 +107,26 @@ export const Document = ({ documentInfo, closeDocument }: DocumentProps) => {
         />
         <span
           onClick={handleUpdateDocument}
-          className="text-xl ml-auto mr-8 shadow-lg rounded-lg px-2 py-2 cursor-pointer outline outline-1 outline-[#8A2BE2] hover:bg-[#8A2BE2]/90 bg-[#8A2BE2] text-white"
+          className="text-xl ml-auto mr-4 shadow-lg rounded-lg px-2 py-2 cursor-pointer outline outline-1 outline-[#8A2BE2] hover:bg-[#8A2BE2]/90 bg-[#8A2BE2] text-white"
         >
           Save Changes
         </span>
         <span
           onClick={checkIfSavedOrPopup}
-          className="text-xl py-2 px-2 rounded-lg bg-[#f3f5f6] hover:bg-[#e6e6e6] text-black outline outline-1 outline-[#8A2BE2] font-medium cursor-pointer drop-shadow-lg"
+          className="text-xl py-2 px-2 mr-4 rounded-lg bg-[#f3f5f6] hover:bg-[#e6e6e6] text-black outline outline-1 outline-[#8A2BE2] font-medium cursor-pointer drop-shadow-lg"
         >
           Close Document
+        </span>
+        <span
+          onClick={handleDeleteDocument}
+          className="text-xl py-2 px-2 rounded-lg bg-red-500 hover:bg-red-500/80 text-white outline outline-1 outline-red-500 font-medium cursor-pointer drop-shadow-lg"
+        >
+          Delete Document
         </span>
       </div>
       <div id="editorjs" className="w-full h-full"></div>
 
-      {showSavePopup && <SavePopup saveDocumentOrExit={saveDocumentOrExit}/>}
+      {showSavePopup && <SavePopup saveDocumentOrExit={handleUpdateDocument}/>}
     </div>
   );
 };

@@ -14,3 +14,5 @@ data.blocks.forEach((block) => {
 })
 
 console.log(counter);
+
+-> Will do a quick notes section in the home page, like sticky notes
