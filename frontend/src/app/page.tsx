@@ -28,7 +28,12 @@ export default function Home() {
 
   const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    loginUser.mutate();
+    if (usernameRef.current?.value !== "" && passwordRef.current?.value !== "") {
+      loginUser.mutate();
+    } else {
+      // Change to a toast later
+      alert("Please enter both username and password");
+    }
   };
 
   return (
