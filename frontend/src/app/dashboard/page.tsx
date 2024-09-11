@@ -77,12 +77,12 @@ export default function Page() {
     <div className="w-screen h-screen flex flex-row relative">
       <SideNav showDocumentByID={showDocumentByID} userDocument={userDocuments} />
       {currentPage === "home" ? (
-        <div className="w-full h-full py-8 px-8 bg-red-200 flex flex-col">
-          <div className="w-full bg-emerald-200">
+        <div className="w-full h-full py-8 px-8 flex flex-col">
+          <div className="w-full">
             <p className="text-2xl mb-2">Welcome back, {sessionStorage.getItem("username")}!</p>
             <p>Total words typed in all documents: {totalWordCount}</p>
           </div>
-          <div className="w-full h-full flex flex-col bg-blue-200 "></div>
+          {/* <div className="w-full h-full flex flex-col bg-blue-200 "></div> */}
         </div>
       ) : (
         <Document key={documentInfo.documentID} closeDocument={closeDocument} documentInfo={documentInfo} refetchDocuments={refetchDocuments} />

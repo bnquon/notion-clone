@@ -5,6 +5,7 @@ import { EDITOR_JS_TOOLS } from "../tools";
 import { SavePopup } from "./SavePopup";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
+import { ChatbotUI } from "./ChatbotUI";
 
 type DocumentProps = {
   documentInfo: {
@@ -96,6 +97,7 @@ export const Document = ({ documentInfo, closeDocument, refetchDocuments }: Docu
 
   return (
     <div className="w-full h-full flex flex-col relative">
+      <ChatbotUI />
       <div className="w-full h-fit mb-[10vh] py-8 px-8 flex font-medium">
         <input
           ref={titleRef}
