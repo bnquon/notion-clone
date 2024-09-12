@@ -10,10 +10,13 @@ export const ChatbotUI = () => {
 
   const sendMessageFunction = useMutation({
     mutationFn: async () => {
-        const response = await axios.post("http://localhost:8080/llama/chat", {
-            input: userMessageRef.current!.value
+        const response = await axios.post("http://localhost:8080/llama/chat", userMessageRef.current!.value, {
+          headers: {
+            'Content-Type': 'text/plain'  // Set the content type to plain text
+          }
         });
         setMessages([...messages, response.data.toString()]);
+        console.log("Response from chatbot: " , response.data);
     },
     onSuccess: () => {
         userMessageRef.current!.value = "";
@@ -22,6 +25,7 @@ export const ChatbotUI = () => {
 
   const handleMessageSubmit = () => {
     if (userMessageRef.current?.value !== "") {
+      console.log("Sent message: ", userMessageRef.current!.value);
       setMessages([...messages, userMessageRef.current!.value]);
       sendMessageFunction.mutate();
     } else {
@@ -37,7 +41,7 @@ export const ChatbotUI = () => {
         {messages.map((message: string, index: number) => (
           <div key={index} className='w-full h-fit text-white flex px-4'
           style={{ justifyContent: index % 2 === 0 ? "flex-end" : "flex-start"}}>
-            <div className='max-w-[65%] w-fit h-fit p-2 text-xl rounded-xl'
+            <div className='max-w-[65%] w-fit h-fit py-2 px-4 text-xl rounded-xl'
             style={{ backgroundColor: index % 2 === 0 ? "blue" : "black" }}>
               <p>{message}</p>
             </div>

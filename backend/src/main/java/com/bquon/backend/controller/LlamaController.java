@@ -19,6 +19,7 @@ public class LlamaController {
 
     @PostMapping("/chat")
     public String chat(@RequestBody String input) {
+        System.out.println("Input: " + input);
         return llamaService.generateResponse(input);
     }
 }
