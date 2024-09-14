@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { useMutation } from "@tanstack/react-query";
 import axios from 'axios';
+import BeatLoader from "react-spinners/BeatLoader";
 
 export const ChatbotUI = () => {
 
@@ -10,7 +11,16 @@ export const ChatbotUI = () => {
 
   const sendMessageFunction = useMutation({
     mutationFn: async () => {
-        const response = await axios.post("http://localhost:8080/llama/chat", userMessageRef.current!.value, {
+        let temp = "";
+        messages.forEach((message: string, index: number) => {
+          if (index % 2 === 0) {
+            temp += "User: " + message + "\n";
+          } else {
+            temp += "Llama: " + message + "\n";
+          }
+        });
+
+        const response = await axios.post("http://localhost:8080/llama/chat", temp, {
           headers: {
             'Content-Type': 'text/plain'  // Set the content type to plain text
           }
@@ -20,7 +30,7 @@ export const ChatbotUI = () => {
     },
     onSuccess: () => {
         userMessageRef.current!.value = "";
-    }
+    },
   })
 
   const handleMessageSubmit = () => {
@@ -36,11 +46,20 @@ export const ChatbotUI = () => {
 
   return (
     <div className='fixed bottom-[3%] right-[3%] w-1/5 h-1/2 flex flex-col border-2 border-black rounded-xl overflow-hidden'>
-      <div className='h-[85%] bg-white grid grid-flow-row overflow-y-scroll py-4 gap-4'>
+      {sendMessageFunction.isPending ? (
+        <div className='absolute h-full w-full flex justify-center items-center bg-black/10'>
+          <BeatLoader
+          size={75}
+          color={"#8A2BE2"}
+          loading={sendMessageFunction.isPending}
+          />
+        </div>
+      ) : null}
+      <div className='h-[85%] bg-white flex flex-col overflow-y-scroll py-4 gap-4'>
         {/* Chat content area */}
         {messages.map((message: string, index: number) => (
           <div key={index} className='w-full h-fit text-white flex px-4'
-          style={{ justifyContent: index % 2 === 0 ? "flex-end" : "flex-start"}}>
+          style={{ justifyContent: index % 2 === 0 ? "flex-end" : "flex-start" }}>
             <div className='max-w-[65%] w-fit h-fit py-2 px-4 text-xl rounded-xl'
             style={{ backgroundColor: index % 2 === 0 ? "blue" : "black" }}>
               <p>{message}</p>
